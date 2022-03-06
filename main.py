@@ -1,8 +1,13 @@
 import arcade
 
 # Screen Setup
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+GRID_WIDTH = 25
+GRID_HEIGHT = 15
+
+TILE_SIZE = 64
+
+SCREEN_WIDTH = GRID_WIDTH * TILE_SIZE
+SCREEN_HEIGHT = GRID_HEIGHT * TILE_SIZE
 
 SCREEN_TITLE = "Potato Maker"
 
@@ -11,9 +16,12 @@ class GameWindow(arcade.Window):
         super().__init__(width, height, title)
 
         arcade.set_background_color(arcade.color.PASTEL_YELLOW)
+
+        # Declare and Initialize variables
+        self.scene = None
     
     def setup(self):
-        pass
+        self.scene = arcade.Scene()
 
     def on_draw(self):
         self.clear()
