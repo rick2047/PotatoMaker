@@ -31,20 +31,28 @@ class Ingredient(arcade.Sprite):
         self.center_y = center_y
 
 class Producer(Machine):
-    def __init__(self, filename, grid_x, grid_y,output_ingrident,facing=(0,1),scale=0.5):
+    def __init__(self, filename, grid_x, grid_y,output_ingrident,facing="up",scale=0.5):
         super().__init__(filename, grid_x, grid_y, scale)
-        self.facing_x = facing[0] * TILE_SIZE
-        self.facing_y = facing[1] * TILE_SIZE
+        self.facing_x = self.center_x
+        self.facing_y = self.center_y
+        if facing=="up":
+            self.facing_y += TILE_SIZE
+        elif facing == "down":
+            self.facing_y -= TILE_SIZE
+        elif facing == "left":
+            self.facing_x -= TILE_SIZE
+        elif facing == "right":
+            self.facing_x += TILE_SIZE
 
         self.output_ingrident =output_ingrident
 
     def produce(self,scene):
         ingredient_sprite_list = scene.get_sprite_list("ingredients")
-        a = arcade.get_sprites_at_point((self.center_x + self.facing_x, self.center_y + self.facing_y), ingredient_sprite_list)
+        a = arcade.get_sprites_at_point((self.facing_x, self.facing_y), ingredient_sprite_list)
         if a == []:
             o = copy.deepcopy(self.output_ingrident)
-            o.center_x = self.center_x + self.facing_x
-            o.center_y = self.center_y + self.facing_y
+            o.center_x = self.facing_x
+            o.center_y = self.facing_y
             scene.add_sprite("ingredients", o)
             print("added")
 
